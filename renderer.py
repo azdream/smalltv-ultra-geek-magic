@@ -251,10 +251,10 @@ class RetroDashboardRenderer:
                 elif phase == 2:
                     ol_draw.point((sx, sy), fill=(100, 160, 240, 180))
 
-            # 3. PM2 Signature Dialogue Box at Bottom (X: 4 ~ 236, Y: 138 ~ 236)
-            ol_draw.rectangle([4, 138, 236, 236], fill=(16, 12, 24, 255), outline=(200, 160, 70, 255), width=2)
-            ol_draw.rectangle([7, 141, 233, 233], outline=(60, 45, 75, 255), width=1)
-            ol_draw.rectangle([12, 134, 76, 150], fill=(180, 140, 60, 255))
+            # 3. PM2 Signature Dialogue Box at Bottom (X: 4 ~ 236, Y: 128 ~ 226)
+            ol_draw.rectangle([4, 128, 236, 226], fill=(16, 12, 24, 255), outline=(200, 160, 70, 255), width=2)
+            ol_draw.rectangle([7, 131, 233, 223], outline=(60, 45, 75, 255), width=1)
+            ol_draw.rectangle([12, 124, 76, 140], fill=(180, 140, 60, 255))
             
             img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
             draw = ImageDraw.Draw(img)
@@ -302,24 +302,24 @@ class RetroDashboardRenderer:
                 draw.rectangle([9, 51, 9 + c_fill, 55], fill=(230, 60, 60))
 
             # RAM
-            draw.text((8, 62), f"RAM {ram_pct:2.0f}%", fill=(100, 200, 255), font=self.font_kr_sm)
-            draw.rectangle([8, 72, 113, 78], fill=(12, 10, 18), outline=(50, 70, 90))
+            draw.text((8, 60), f"RAM {ram_pct:2.0f}%", fill=(100, 200, 255), font=self.font_kr_sm)
+            draw.rectangle([8, 70, 113, 76], fill=(12, 10, 18), outline=(50, 70, 90))
             r_fill = int(103 * (ram_pct / 100.0))
             if r_fill > 0:
-                draw.rectangle([9, 73, 9 + r_fill, 77], fill=(50, 160, 230))
+                draw.rectangle([9, 71, 9 + r_fill, 75], fill=(50, 160, 230))
 
             # Exit
-            draw.text((8, 84), f"퇴근까지 {work_data['remaining_text']}", fill=(255, 215, 80), font=self.font_kr_sm)
-            draw.rectangle([8, 94, 113, 100], fill=(12, 10, 18), outline=(80, 70, 50))
+            draw.text((8, 80), f"퇴근까지 {work_data['remaining_text']}", fill=(255, 215, 80), font=self.font_kr_sm)
+            draw.rectangle([8, 90, 113, 96], fill=(12, 10, 18), outline=(80, 70, 50))
             w_fill = int(103 * (work_data["percent"] / 100.0))
             if w_fill > 0:
-                draw.rectangle([9, 95, 9 + w_fill, 99], fill=(255, 180, 40))
+                draw.rectangle([9, 91, 9 + w_fill, 95], fill=(255, 180, 40))
                 if f % 2 == 1:
-                    draw.rectangle([9 + w_fill - 1, 95, 9 + w_fill, 99], fill=(255, 240, 150))
+                    draw.rectangle([9 + w_fill - 1, 91, 9 + w_fill, 95], fill=(255, 240, 150))
 
             # Stress (POMO 12 blocks)
             p_color = (255, 60, 60) if need_break else (255, 130, 200)
-            draw.text((8, 107), "스트레스", fill=p_color, font=self.font_kr_sm)
+            draw.text((8, 100), "스트레스", fill=p_color, font=self.font_kr_sm)
             
             for i in range(target_tasks):
                 bx = 8 + i * 8
@@ -327,21 +327,21 @@ class RetroDashboardRenderer:
                     b_col = (255, 60, 60) if need_break else ((255, 180, 50) if i >= 9 else (255, 80, 120))
                     if i == completed_tasks - 1 and f % 2 == 1:
                         b_col = (255, 240, 150)
-                    draw.rectangle([bx, 118, bx + 6, 126], fill=b_col)
+                    draw.rectangle([bx, 110, bx + 6, 118], fill=b_col)
                 elif i == completed_tasks and not need_break:
                     pulse_col = (80, 50, 70) if f % 2 == 0 else (30, 20, 35)
-                    draw.rectangle([bx, 118, bx + 6, 126], fill=pulse_col, outline=(255, 140, 180))
+                    draw.rectangle([bx, 110, bx + 6, 118], fill=pulse_col, outline=(255, 140, 180))
                 else:
-                    draw.rectangle([bx, 118, bx + 6, 126], fill=(25, 20, 35), outline=(60, 45, 70))
+                    draw.rectangle([bx, 110, bx + 6, 118], fill=(25, 20, 35), outline=(60, 45, 70))
 
             # Status summary (Removed as per user request to drop condition/task counts)
 
             # Dialogue Box
-            draw.text((16, 134), dlg_name, fill=(15, 10, 20), font=self.font_kr)
+            draw.text((16, 128), dlg_name, fill=(15, 10, 20), font=self.font_kr)
             import textwrap
             wrapped_lines = textwrap.wrap(dlg_msg, width=16)
             for idx, line in enumerate(wrapped_lines[:4]):  # Max 4 lines
-                draw.text((14, 154 + (idx * 20)), line, fill=(255, 255, 255), font=self.font_kr_lg)
+                draw.text((14, 144 + (idx * 20)), line, fill=(255, 255, 255), font=self.font_kr_lg)
 
             # High quality quantization (colors=64) preserves crisp beauty and stays ultra-light (~45KB)
             frame_q = img.quantize(colors=64, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
@@ -379,14 +379,14 @@ class RetroDashboardRenderer:
                     draw.point((sx, sy), fill=(255, 180, 0))
 
             # Bottom PM2 Butler Cube Report Dialogue Box (Solid dark for 100% clean readability)
-            box_y1, box_y2 = 180, 236
+            box_y1, box_y2 = 170, 226
             draw.rectangle([4, box_y1, 236, box_y2], fill=(16, 12, 24), outline=(220, 180, 70), width=2)
             draw.rectangle([7, box_y1 + 3, 233, box_y2 - 3], outline=(60, 45, 75), width=1)
 
             # Name badge: Housekeeper Cube
             badge_col = (200, 160, 60) if f % 2 == 0 else (240, 200, 80)
             draw.rectangle([10, box_y1 - 7, 85, box_y1 + 6], fill=badge_col)
-            draw.text((14, box_y1 - 7), "◆ 집사 큐브", fill=(15, 10, 20), font=self.font_kr_sm)
+            draw.text((14, box_y1 - 3), "◆ 집사 큐브", fill=(15, 10, 20), font=self.font_kr_sm)
 
             msg_line1 = f"태양님, [{app_name}] 작업이 완료되었습니다."
             if count >= 12:
@@ -398,7 +398,7 @@ class RetroDashboardRenderer:
             dlg_msg = f"{msg_line1} {msg_line2}"
             wrapped_lines = textwrap.wrap(dlg_msg, width=16)
             for idx, line in enumerate(wrapped_lines[:4]):
-                draw.text((14, box_y1 + 16 + (idx * 20)), line, fill=(255, 255, 255), font=self.font_kr_lg)
+                draw.text((14, box_y1 + 10 + (idx * 20)), line, fill=(255, 255, 255), font=self.font_kr_lg)
 
             frame_q = img.quantize(colors=48, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
             frames.append(frame_q)
